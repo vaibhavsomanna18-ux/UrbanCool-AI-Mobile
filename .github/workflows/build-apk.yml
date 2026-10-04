@@ -56,7 +56,6 @@ jobs:
             <foreground android:drawable="@drawable/ic_urbancool_globe"/>
           </adaptive-icon>
           EOF
-          mkdir -p android/app/src/main/res/values
           cat > android/app/src/main/res/values/urbancool_colors.xml <<'EOF'
           <resources><color name="ic_launcher_background">#06151a</color></resources>
           EOF
