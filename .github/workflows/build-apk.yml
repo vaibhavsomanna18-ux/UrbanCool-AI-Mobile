@@ -56,9 +56,6 @@ jobs:
             <foreground android:drawable="@drawable/ic_urbancool_globe"/>
           </adaptive-icon>
           EOF
-          cat > android/app/src/main/res/values/urbancool_colors.xml <<'EOF'
-          <resources><color name="ic_launcher_background">#06151a</color></resources>
-          EOF
           if grep -q 'android:icon=' android/app/src/main/AndroidManifest.xml; then
             sed -i 's#android:icon="[^"]*"#android:icon="@mipmap/ic_launcher"#' android/app/src/main/AndroidManifest.xml
           fi
