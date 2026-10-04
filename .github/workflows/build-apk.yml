@@ -1,0 +1,83 @@
+name: Build UrbanCool AI APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Add Android platform
+        run: npx cap add android
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Configure circular globe launcher icon
+        shell: bash
+        run: |
+          mkdir -p android/app/src/main/res/drawable
+          mkdir -p android/app/src/main/res/mipmap-anydpi-v26
+          cat > android/app/src/main/res/drawable/ic_urbancool_globe.xml <<'EOF'
+          <vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+            <path android:fillColor="#06151a" android:pathData="M54,4A50,50 0,1 0,54 104A50,50 0,1 0,54 4"/>
+            <path android:fillColor="#159a91" android:pathData="M54,13A41,41 0,1 0,54 95A41,41 0,1 0,54 13"/>
+            <path android:fillColor="#46d7b2" android:pathData="M39,27L48,21L57,24L64,20L74,28L68,35L59,33L53,41L45,38L40,45L31,40L35,32Z"/>
+            <path android:fillColor="#46d7b2" android:pathData="M66,48L78,46L84,54L78,60L69,58L64,65L57,61L61,53Z"/>
+            <path android:fillColor="#46d7b2" android:pathData="M45,61L53,66L50,76L43,82L37,74L39,66Z"/>
+            <path android:strokeColor="#b6fff1" android:strokeWidth="1.4" android:fillColor="@android:color/transparent" android:pathData="M54,13A41,41 0,1 0,54 95A41,41 0,1 0,54 13"/>
+            <path android:strokeColor="#a7f8ed" android:strokeWidth="1" android:fillColor="@android:color/transparent" android:pathData="M13,54L95,54M54,13C38,27 38,81 54,95M54,13C70,27 70,81 54,95"/>
+          </vector>
+          EOF
+          cat > android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml <<'EOF'
+          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+            <background android:drawable="@color/ic_launcher_background"/>
+            <foreground android:drawable="@drawable/ic_urbancool_globe"/>
+          </adaptive-icon>
+          EOF
+          cat > android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml <<'EOF'
+          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+            <background android:drawable="@color/ic_launcher_background"/>
+            <foreground android:drawable="@drawable/ic_urbancool_globe"/>
+          </adaptive-icon>
+          EOF
+          mkdir -p android/app/src/main/res/values
+          cat > android/app/src/main/res/values/urbancool_colors.xml <<'EOF'
+          <resources><color name="ic_launcher_background">#06151a</color></resources>
+          EOF
+          if grep -q 'android:icon=' android/app/src/main/AndroidManifest.xml; then
+            sed -i 's#android:icon="[^"]*"#android:icon="@mipmap/ic_launcher"#' android/app/src/main/AndroidManifest.xml
+          fi
+          if grep -q 'android:roundIcon=' android/app/src/main/AndroidManifest.xml; then
+            sed -i 's#android:roundIcon="[^"]*"#android:roundIcon="@mipmap/ic_launcher_round"#' android/app/src/main/AndroidManifest.xml
+          else
+            sed -i 's#<application #<application android:roundIcon="@mipmap/ic_launcher_round" #' android/app/src/main/AndroidManifest.xml
+          fi
+
+      - name: Build debug APK
+        run: |
+          cd android
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: UrbanCool-AI-debug
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
