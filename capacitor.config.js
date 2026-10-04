@@ -1,3 +1,4 @@
+// UrbanCool AI native shell — loads the public production app.
 const config = {
   appId: 'ai.urbancool.app',
   appName: 'UrbanCool AI',
