@@ -1,9 +1,8 @@
-// UrbanCool AI native shell — loads the public production app.
+// UrbanCool AI native app — bundle the full frontend locally and call the shared backend directly.
 const config = {
   appId: 'ai.urbancool.app',
   appName: 'UrbanCool AI',
   webDir: 'www',
-  server: { url: 'https://urbancool-ai.hatchable.site', cleartext: false },
   android: { backgroundColor: '#050b0d' }
 };
 module.exports = config;
