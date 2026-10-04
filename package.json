@@ -1,0 +1,8 @@
+{
+  "name":"urbancool-ai-mobile",
+  "version":"1.0.0",
+  "private":true,
+  "scripts":{"build":"echo UrbanCool Android shell ready","cap:add":"npx cap add android","cap:sync":"npx cap sync android"},
+  "dependencies":{"@capacitor/core":"latest","@capacitor/android":"latest"},
+  "devDependencies":{"@capacitor/cli":"latest"}
+}
