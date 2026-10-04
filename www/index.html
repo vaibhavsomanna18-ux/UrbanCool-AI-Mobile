@@ -1,2 +1,18 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#050b0d"><title>UrbanCool AI</title></head><body style="margin:0;background:#050b0d"><script>location.replace('https://urbancool-ai.hatchable.site');</script></body></html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#050b0d"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="manifest" href="/manifest.webmanifest"><link rel="icon" href="/icon.svg"><title>UrbanCool AI — Urban Heat Intelligence</title>
+<script>window.__HATCHABLE__={api:"https://urbancool-ai.hatchable.site/api"};</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="stylesheet" href="/theme.css"></head>
+<body><div id="app"><aside class="sidebar"><div class="brand"><div class="brandmark">UC</div><div><b>URBANCOOL</b><span>AI</span></div></div><div class="brandline">CLIMATE INTELLIGENCE</div>
+<nav id="nav"></nav><div class="side-status"><span class="dot live"></span><div><b>System operational</b><small>Model + simulator ready</small></div></div></aside>
+<main><header class="topbar"><div><div class="eyebrow">URBAN HEAT INTELLIGENCE</div><h1 id="pageTitle">See the heat. Understand the cause.</h1></div><div class="top-actions"><button id="modeBtn" class="ghost">DEMO DATA</button><button id="refreshBtn" class="iconbtn" title="Refresh data">↻</button></div></header>
+<section id="heroShell" class="hero-shell" aria-label="UrbanCool AI visual hero"><iframe id="sylvaHero" class="sylva-hero" title="UrbanCool AI Living Green hero" src="/landing-pages/inner-green-3d.html" loading="eager"></iframe><div class="hero-vignette"></div><div class="hero-overlay"><div class="hero-kicker"><span class="hero-dot"></span> URBANCOOL AI · CLIMATE INTELLIGENCE</div><div class="hero-copy"><h2>See the heat.<br><em>Understand the cause.</em></h2><p>A geospatial decision system for detecting urban heat, explaining its drivers and optimizing cooling interventions.</p><div class="hero-meta"><span>DETECT</span><i>→</i><span>EXPLAIN</span><i>→</i><span>PREDICT</span><i>→</i><span>OPTIMIZE</span></div></div><div class="hero-corner"><span>LIVE WEATHER</span><b id="heroWeather">SYNCING</b></div></div></section><section id="content" class="content"><div class="loading"><div class="loader"></div><span>Initializing climate intelligence…</span></div></section></main></div>
+<script>
+window.addEventListener('message',function(e){
+  if(!e.data||e.data.type!=='urbancool-nav')return;
+  const page=e.data.page;
+  if(!['overview','heat','drivers','prediction','simulator','optimization','recommendations','data','about'].includes(page))return;
+  if(window.state){window.state.page=page;window.render()}
+});
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="/app.js"></script><script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}))}</script></body></html>
