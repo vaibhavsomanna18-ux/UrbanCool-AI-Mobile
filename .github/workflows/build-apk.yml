@@ -75,6 +75,15 @@ jobs:
           distribution: temurin
           java-version: '21'
 
+      - name: Verify bundled app entrypoint
+        shell: bash
+        run: |
+          test -s www/index.html
+          test -s www/app.js
+          test -s www/theme.css
+          echo "Bundled UrbanCool frontend verified"
+          wc -c www/index.html www/app.js www/theme.css
+
       - name: Build debug APK
         run: |
           cd android
