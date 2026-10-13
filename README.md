@@ -1,33 +1,37 @@
-# UrbanCool AI
+# UrbanCool AI — Website Source
 
-**Urban heat intelligence, mitigation simulation, and intervention optimization.**
+The repository contains the source export of the UrbanCool AI capstone website, including the web UI, backend endpoint source, shared heat analytics, reports, satellite processing, and site configuration.
 
-Project title: *Optimizing Urban Heat Mitigation and Cooling Strategies via Artificial Intelligence and Machine Learning.*
+**Project:** Optimizing Urban Heat Mitigation and Cooling Strategies via Artificial Intelligence and Machine Learning  
+**Live website:** https://urbancool-ai.hatchable.site
 
-## Repository layout
+## Website source map
 
-- `public/` — main web frontend (HTML, CSS, JavaScript, map UI, PWA assets and hero page).
-- `api/` — backend endpoints for dashboard, satellite analysis, simulation, optimization, chat and zone reports.
-- `lib/heatMath.js` — shared heat analytics, percentile scoring, intervention simulation and optimization logic.
-- `hatchable.toml` — Hatchable project configuration.
-- `www/` — frontend snapshot used by the Capacitor Android wrapper.
-- `capacitor.config.js`, `package.json` — Android wrapper configuration.
-- `.github/workflows/build-apk.yml` — automated Android APK build workflow.
+- `public/index.html` — website entry point and page structure.
+- `public/app.js` — interactive interface and client-side workflows.
+- `public/theme.css` — visual design and responsive styling.
+- `public/landing-pages/` — animated hero page and its Three.js scene.
+- `public/manifest.webmanifest`, `public/sw.js`, `public/icon.svg` — web app metadata and icon assets.
+- `public/threeui-sylva-hero.json` — hero component configuration.
+- `api/dashboard.js` — dashboard data.
+- `api/satellite.js` — Landsat scene search and zone-level LST, NDVI and NDBI processing.
+- `api/simulate.js` — cooling scenario simulation.
+- `api/optimize.js` — constrained intervention optimization.
+- `api/chat.js` — project-aware chatbot endpoint.
+- `api/report.js` — zone report generation.
+- `lib/heatMath.js` — shared hotspot scoring, drivers, scenario calculations and optimization logic.
+- `hatchable.toml` — hosting/runtime configuration.
 
-## Data and model notes
+## Data interpretation
 
-- Satellite analysis discovers Landsat Collection 2 Level-2 scenes through STAC and derives LST, NDVI and NDBI for city zones.
-- Satellite observations are periodic, not a continuous real-time stream; cloud and NoData conditions may affect individual zones.
-- Hotspot scores are relative analytical indices, not probabilities of a heatwave or health outcome.
-- Cooling outputs are model-estimated scenarios, not experimentally measured intervention effects.
-- Keep observed, derived, predicted and simulated values clearly distinguished.
+- Landsat observations are scene-based, not a continuous real-time satellite feed. Clouds and missing pixels can produce NoData zones.
+- LST is derived from satellite surface-temperature products; NDVI and NDBI are derived from surface reflectance.
+- Hotspot scores are relative analytical indices, not probabilities.
+- Cooling and optimization outputs are model-estimated scenarios, not measured field outcomes.
+- The UI should distinguish observed, derived, predicted and simulated quantities.
 
-## Running / deployment
+## Deployment
 
-The `public/`, `api/`, `lib/` and `hatchable.toml` files are the source export of the Hatchable-hosted application. The live deployment currently remains at https://urbancool-ai.hatchable.site. The API source uses Hatchable runtime conventions, so deploying the backend elsewhere requires replacing platform-specific runtime integrations and configuring external data services.
+The live version uses Hatchable's hosting/runtime conventions. The frontend source is included here, but deploying the backend to a different provider requires adapting the Hatchable endpoint/runtime integration and configuring the necessary external services. External map tiles, satellite data endpoints and the animated hero's remote resources require internet access.
 
-The Android wrapper uses Capacitor and GitHub Actions. Live satellite, weather, map-tile and API functionality requires network access.
-
-## Important
-
-Do not commit secrets, API keys, credentials, or private user data. Configure provider credentials in the deployment environment.
+No API keys or secrets should be committed. Configure provider credentials in the hosting environment.
