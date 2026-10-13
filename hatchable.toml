@@ -1,0 +1,3 @@
+[ai]
+required = true
+providers = ["openai", "anthropic", "google"]
