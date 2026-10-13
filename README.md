@@ -22,7 +22,7 @@ The APK is a debug build, not a Play Store-signed release. The workflow rebuilds
 - `public/app.js`, `www/app.js` — navigation, maps, heat intelligence, prediction, simulation, optimization, recommendations, reports, FAQ and chatbot UI.
 - `public/theme.css`, `www/theme.css` — responsive UI styling.
 - `public/landing-pages/inner-green-3d.html` — animated Three.js hero.
-- `public/landing-pages/inner-green-assets/`, `www/landing-pages/inner-green-assets/` — locally bundled hero images, font and Three.js.
+- `public/landing-pages/inner-green-assets/`, `www/landing-pages/inner-green-assets/` — locally bundled hero images, font and Three.js r160 (the version referenced by the scene).
 - `public/vendor/leaflet/`, `www/vendor/leaflet/` — locally bundled Leaflet JS, CSS and map-control images.
 - `api/satellite.js` — Landsat Collection 2 Level-2 scene search and zone-level LST, NDVI and NDBI processing.
 - `api/dashboard.js` — overview/dashboard inputs and model summary.
