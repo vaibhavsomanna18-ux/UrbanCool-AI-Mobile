@@ -30,13 +30,27 @@ jobs:
             test -s "$dir/lexend-latin.woff2"
             test -s "$dir/three.min.js"
           done
-          file public/landing-pages/inner-green-assets/* www/landing-pages/inner-green-assets/*
+          file public/landing-pages/inner-green-assets/* www/landing-pages/inner-green-assets/* public/vendor/leaflet/* www/vendor/leaflet/*
+      - name: Download and bundle Leaflet map assets
+        run: |
+          set -euo pipefail
+          for dir in public/vendor/leaflet www/vendor/leaflet; do
+            mkdir -p "$dir/images"
+            curl -fL --retry 3 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js' -o "$dir/leaflet.js"
+            curl -fL --retry 3 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css' -o "$dir/leaflet.css"
+            for asset in marker-icon.png marker-icon-2x.png marker-shadow.png layers.png layers-2x.png; do
+              curl -fL --retry 3 "https://unpkg.com/leaflet@1.9.4/dist/images/$asset" -o "$dir/images/$asset"
+              test -s "$dir/images/$asset"
+            done
+            test -s "$dir/leaflet.js"
+            test -s "$dir/leaflet.css"
+          done
       - name: Commit downloaded assets
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add public/landing-pages/inner-green-assets www/landing-pages/inner-green-assets
+          git add public/landing-pages/inner-green-assets www/landing-pages/inner-green-assets public/vendor/leaflet www/vendor/leaflet
           if git diff --cached --quiet; then
             echo 'Assets already present and unchanged.'
             exit 0
