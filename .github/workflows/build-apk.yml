@@ -22,6 +22,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Verify bundled frontend and assets
+        run: npm run build
+
       - name: Add Android platform
         run: npx cap add android
 
@@ -81,17 +84,32 @@ jobs:
           test -s www/index.html
           test -s www/app.js
           test -s www/theme.css
-          echo "Bundled UrbanCool frontend verified"
-          wc -c www/index.html www/app.js www/theme.css
+          test -s www/vendor/leaflet/leaflet.js
+          test -s www/vendor/leaflet/leaflet.css
+          test -s www/landing-pages/inner-green-assets/three.min.js
+          echo "Bundled UrbanCool frontend and map/hero assets verified"
+          wc -c www/index.html www/app.js www/theme.css www/vendor/leaflet/leaflet.js www/landing-pages/inner-green-assets/three.min.js
 
       - name: Build debug APK
         run: |
           cd android
           ./gradlew assembleDebug --no-daemon
 
+      - name: Validate APK output
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK=android/app/build/outputs/apk/debug/app-debug.apk
+          test -s "$APK"
+          SIZE=$(stat -c%s "$APK")
+          test "$SIZE" -gt 1000000
+          unzip -t "$APK"
+          printf 'APK size: %s bytes\\n' "$SIZE"
+          printf 'Commit: %s\\n' "$GITHUB_SHA" > android/app/build/outputs/apk/debug/build-info.txt
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: UrbanCool-AI-debug
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: android/app/build/outputs/apk/debug/
           if-no-files-found: error
