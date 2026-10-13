@@ -24,7 +24,7 @@ jobs:
             curl -fL --retry 3 'https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/c74a626e396794aa239bca6f/card-ecostove.jpg' -o "$dir/card-ecostove.jpg"
             curl -fL --retry 3 'https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/c74a626e396794aa239bca6f/card-ethos.jpg' -o "$dir/card-ethos.jpg"
             curl -fL --retry 3 'https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/embedded/1ec8f6ee2750554b4bc59ff0b507d316a82a7ba37e0e5bebc41d3bd9b9faad46.woff2' -o "$dir/lexend-latin.woff2"
-            curl -fL --retry 3 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js' -o "$dir/three.min.js"
+            curl -fL --retry 3 'https://unpkg.com/three@0.160.0/build/three.min.js' -o "$dir/three.min.js"
             test -s "$dir/card-ecostove.jpg"
             test -s "$dir/card-ethos.jpg"
             test -s "$dir/lexend-latin.woff2"
