@@ -16,23 +16,30 @@ jobs:
         with:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Download landing page assets
+      - name: Download and bundle landing page assets
         run: |
           set -euo pipefail
-          mkdir -p public/landing-pages/inner-green-assets
-          curl -fL --retry 3 'https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/c74a626e396794aa239bca6f/card-ecostove.jpg' -o public/landing-pages/inner-green-assets/card-ecostove.jpg
-          curl -fL --retry 3 'https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/c74a626e396794aa239bca6f/card-ethos.jpg' -o public/landing-pages/inner-green-assets/card-ethos.jpg
-          curl -fL --retry 3 'https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/embedded/1ec8f6ee2750554b4bc59ff0b507d316a82a7ba37e0e5bebc41d3bd9b9faad46.woff2' -o public/landing-pages/inner-green-assets/lexend-latin.woff2
-          file public/landing-pages/inner-green-assets/*
+          for dir in public/landing-pages/inner-green-assets www/landing-pages/inner-green-assets; do
+            mkdir -p "$dir"
+            curl -fL --retry 3 'https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/c74a626e396794aa239bca6f/card-ecostove.jpg' -o "$dir/card-ecostove.jpg"
+            curl -fL --retry 3 'https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/c74a626e396794aa239bca6f/card-ethos.jpg' -o "$dir/card-ethos.jpg"
+            curl -fL --retry 3 'https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/embedded/1ec8f6ee2750554b4bc59ff0b507d316a82a7ba37e0e5bebc41d3bd9b9faad46.woff2' -o "$dir/lexend-latin.woff2"
+            curl -fL --retry 3 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js' -o "$dir/three.min.js"
+            test -s "$dir/card-ecostove.jpg"
+            test -s "$dir/card-ethos.jpg"
+            test -s "$dir/lexend-latin.woff2"
+            test -s "$dir/three.min.js"
+          done
+          file public/landing-pages/inner-green-assets/* www/landing-pages/inner-green-assets/*
       - name: Commit downloaded assets
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add public/landing-pages/inner-green-assets/card-ecostove.jpg public/landing-pages/inner-green-assets/card-ethos.jpg public/landing-pages/inner-green-assets/lexend-latin.woff2
+          git config user.email '41898282+users.noreply.github.com'
+          git add public/landing-pages/inner-green-assets www/landing-pages/inner-green-assets
           if git diff --cached --quiet; then
             echo 'Assets already present and unchanged.'
             exit 0
           fi
-          git commit -m 'Add missing landing page assets'
+          git commit -m 'Bundle missing landing page assets for web and Android'
           git push origin HEAD:main
